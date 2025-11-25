@@ -34,16 +34,13 @@ Una **aplicación de Smart Wallet** que permite registrar y consultar metadata d
 
 ### ¿Cómo Lo Construiremos?
 
-A través de **8 pasos incrementales**, cada uno agregando una funcionalidad específica:
+A través de **5 pasos incrementales**, cada uno agregando una funcionalidad específica:
 
 1. **Contrato Smart Wallet** - Implementar el contrato que gestiona cuentas
 2. **Contrato de Registro de Lotes** - Implementar el contrato para almacenar metadata
 3. **Configuración Frontend** - Setup inicial de Next.js
 4. **Integración Passkeys** - Autenticación sin contraseñas
-5. **Integración Wallet** - Conectar frontend con el smart wallet
-6. **Registro de Lotes** - Funcionalidad para registrar lotes
-7. **Consulta de Lotes** - Interfaz para consultar información
-8. **Producción y Despliegue** - Pulir UI/UX y desplegar en Vercel
+5. **Producción y Despliegue** - Integración completa, UI/UX pulida y despliegue en Vercel
 
 ### ¿Por Qué Es Importante?
 
@@ -58,7 +55,7 @@ A través de **8 pasos incrementales**, cada uno agregando una funcionalidad esp
 Cada paso está en una **rama de Git diferente**. Los estudiantes:
 
 1. Comienzan en `starting-template` (esta rama)
-2. Siguen las ramas en orden: `01` → `02` → `03` → ... → `08`
+2. Siguen las ramas en orden: `01` → `02` → `03` → `04` → `08`
 3. Cada rama tiene un tutorial detallado en `docs/tutorials/`
 4. Al final, tienen una aplicación completa desplegada en Vercel
 
@@ -73,7 +70,7 @@ Al completar este workshop, habrás logrado:
 - ✅ **Autenticación Passkey**: Creación y uso de Passkeys para autenticación
 - ✅ **Registro de Lotes**: Capacidad de registrar metadata en la blockchain
 - ✅ **Consulta de Lotes**: Interfaz para consultar lotes registrados
-- ✅ **UI/UX Pulida**: Interfaz intuitiva y minimalista (usando v0)
+- ✅ **UI/UX Pulida**: Interfaz intuitiva y minimalista
 - ✅ **Desplegado en Vercel**: Aplicación accesible públicamente
 - ✅ **Funcionando en Testnet**: Interactuando con la blockchain real de Stellar
 
@@ -127,29 +124,11 @@ Antes de comenzar, asegúrate de tener:
 **Qué aprendes:** Implementar creación y uso de Passkeys con WebAuthn  
 **Resultado:** Usuarios pueden crear Passkeys en el navegador
 
-### Paso 05: Integración Smart Wallet
-
-**Rama:** `05-wallet-integration`  
-**Qué aprendes:** Conectar frontend con contratos Soroban y smart wallet  
-**Resultado:** Frontend puede interactuar con el smart wallet
-
-### Paso 06: Registro de Lotes
-
-**Rama:** `06-lot-registration`  
-**Qué aprendes:** Implementar formulario y lógica para registrar lotes  
-**Resultado:** Usuarios pueden registrar lotes en la blockchain
-
-### Paso 07: Consulta de Lotes
-
-**Rama:** `07-lot-query`  
-**Qué aprendes:** Implementar interfaz para consultar lotes registrados  
-**Resultado:** Usuarios pueden ver lotes registrados
-
-### Paso 08: Producción y Despliegue
+### Paso 05: Producción y Despliegue
 
 **Rama:** `08-production-ready`  
-**Qué aprendes:** Pulir UI/UX, manejo de errores, y desplegar en Vercel  
-**Resultado:** Aplicación desplegada y accesible públicamente 🎉
+**Qué aprendes:** Integración completa del Smart Wallet, registro y consulta de lotes, pulir UI/UX, manejo de errores, y desplegar en Vercel  
+**Resultado:** Aplicación completa desplegada y accesible públicamente 🎉
 
 ## 🌿 Organización de Ramas
 
@@ -160,9 +139,6 @@ Este repositorio usa ramas para mostrar el progreso del desarrollo. Cada rama re
 - **`02-lot-registry-contract`** - Contrato de registro de lotes de producción
 - **`03-frontend-setup`** - Configuración del proyecto Next.js
 - **`04-passkey-integration`** - Autenticación Passkey
-- **`05-wallet-integration`** - Integración del smart wallet en frontend
-- **`06-lot-registration`** - Funcionalidad de registro de lotes
-- **`07-lot-query`** - Interfaz de consulta de lotes
 - **`08-production-ready`** - Versión final lista para producción y despliegue
 
 Ver [docs/BRANCH_ORGANIZATION.md](./docs/BRANCH_ORGANIZATION.md) para información detallada de las ramas.
@@ -198,9 +174,6 @@ Todos los tutoriales están disponibles en `docs/tutorials/`:
 - [Tutorial 02: Lot Registry Contract](./docs/tutorials/02-LOT_REGISTRY_CONTRACT.md)
 - [Tutorial 03: Frontend Setup](./docs/tutorials/03-FRONTEND_SETUP.md)
 - [Tutorial 04: Passkey Integration](./docs/tutorials/04-PASSKEY_INTEGRATION.md)
-- [Tutorial 05: Wallet Integration](./docs/tutorials/05-WALLET_INTEGRATION.md)
-- [Tutorial 06: Lot Registration](./docs/tutorials/06-LOT_REGISTRATION.md)
-- [Tutorial 07: Lot Query](./docs/tutorials/07-LOT_QUERY.md)
 - [Tutorial 08: Production Ready](./docs/tutorials/08-PRODUCTION_READY.md)
 
 ### Paso 5: Comenzar con el Primer Paso
@@ -232,7 +205,7 @@ Toda la documentación está en el directorio `docs/`:
 
 ### Tutoriales Paso a Paso
 
-- **[docs/tutorials/](./docs/tutorials/)** - Todos los tutoriales detallados (01-08)
+- **[docs/tutorials/](./docs/tutorials/)** - Todos los tutoriales detallados (01, 02, 03, 04, 08)
 
 ## 🏗️ Estructura del Proyecto
 
@@ -241,8 +214,7 @@ stellar-smartwallet/
 ├── README.md                    # Este archivo
 ├── docs/                        # 📚 Toda la documentación
 │   ├── README.md
-│   ├── tutorials/               # Tutoriales paso a paso (01-08)
-│   ├── WALLET_EXPLANATION.md
+│   ├── tutorials/               # Tutoriales paso a paso (01, 02, 03, 04, 08)
 │   ├── BRANCH_ORGANIZATION.md
 │   ├── SMART_WALLET_VS_TRADITIONAL.md
 │   ├── CONTRACT_DEPLOYMENT.md
@@ -259,7 +231,7 @@ stellar-smartwallet/
 
 1. **Lee este README completo** - Entiende el objetivo y el proceso
 2. **Explora la documentación** - Familiarízate con los conceptos
-3. **Sigue las ramas en orden** - `01` → `02` → `03` → ... → `08`
+3. **Sigue las ramas en orden** - `01` → `02` → `03` → `04` → `08`
 4. **Lee cada tutorial** - Cada rama tiene un tutorial detallado
 5. **Construye paso a paso** - No te saltes pasos
 6. **Despliega tu aplicación** - Al final, tendrás algo desplegado en Vercel
@@ -290,6 +262,7 @@ stellar-smartwallet/
    - Variables de entorno de ejemplo
 
 3. **Verificar ramas:**
+
    - Todas las ramas están actualizadas
    - Los tutoriales están completos
    - El flujo es claro
@@ -311,7 +284,7 @@ stellar-smartwallet/
 
 ## 📦 Contratos
 
-### Contrato Smart Wallet (`contracts/wallet.rs`)
+### Contrato Smart Wallet (`contracts/src/wallet.rs`)
 
 **Propósito:** Gestiona cuentas de usuario con autenticación Passkey
 
@@ -326,7 +299,7 @@ stellar-smartwallet/
 
 Ver [docs/CONTRACT_EXPLANATION.md](./docs/CONTRACT_EXPLANATION.md) para documentación completa del contrato.
 
-### Contrato de Registro de Lotes (`contracts/lot_registry.rs`)
+### Contrato de Registro de Lotes (`contracts/src/lot_registry.rs`)
 
 **Propósito:** Almacena metadata de lotes de producción en la blockchain
 
@@ -337,7 +310,7 @@ Ver [docs/CONTRACT_EXPLANATION.md](./docs/CONTRACT_EXPLANATION.md) para document
 - Consultar información de lotes
 - Trazabilidad inmutable
 
-**Estado:** ⏳ A implementar en la rama `02-lot-registry-contract`
+**Estado:** ✅ Implementado en la rama `02-lot-registry-contract`
 
 > **Nota:** Los estudiantes usarán contratos **pre-desplegados** para ahorrar tiempo. El instructor mostrará el proceso de deployment, pero los estudiantes trabajarán con contratos ya desplegados en testnet.
 
