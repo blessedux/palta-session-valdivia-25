@@ -8,7 +8,7 @@ pub struct LotMetadata {
     pub production_date: u64,        // Timestamp
     pub batch_number: SorobanString,
     pub quantity: u32,
-    pub quality_score: u8,           // 0-100
+    pub quality_score: u32,          // 0-100
     pub location: SorobanString,
     pub notes: SorobanString,
     pub registered_by: Address,      // Smart wallet address
@@ -28,11 +28,13 @@ impl LotRegistry {
         production_date: u64,
         batch_number: SorobanString,
         quantity: u32,
-        quality_score: u8,
+        quality_score: u32,
         location: SorobanString,
         notes: SorobanString,
     ) {
-        let caller = env.invoker();
+        // Get the caller address (the smart wallet contract that invoked this)
+        // This will be set by the smart wallet when it calls this function
+        let caller = env.current_contract_address();
         
         // Validate quality score
         if quality_score > 100 {

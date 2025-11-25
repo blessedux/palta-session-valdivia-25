@@ -12,4 +12,5 @@ NEXT_PUBLIC_CONTRACT_ID=TU_CONTRACT_ID_AQUI
 **Nota:** Reemplaza `TU_CONTRACT_ID_AQUI` con el ID del contrato real después de desplegar el contrato Soroban.
 
 Para el despliegue en Vercel, agrega estas mismas variables en:
+
 - Vercel Dashboard → Tu Proyecto → Settings → Environment Variables

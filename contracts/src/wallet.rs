@@ -76,22 +76,18 @@ impl SmartWallet {
         let message_hash = env.crypto().sha256(&message);
         
         // Verify ECDSA secp256r1 signature
-        // Note: In Soroban, we use verify_sig_ecdsa_secp256r1
-        // The function signature: verify_sig_ecdsa_secp256r1(message_hash, signature, public_key)
-        if !env
-            .crypto()
-            .verify_sig_ecdsa_secp256r1(&message_hash, &signature, &wallet_data.passkey_public_key)
-        {
-            panic!("Invalid signature");
-        }
+        // secp256r1_verify panics if signature is invalid, returns () if valid
+        // Signature: secp256r1_verify(public_key: &BytesN<65>, message_digest: &Hash<32>, signature: &BytesN<64>)
+        env.crypto()
+            .secp256r1_verify(&wallet_data.passkey_public_key, &message_hash, &signature);
 
         // Update nonce
         wallet_data.nonce = nonce;
         env.storage().instance().set(&WALLET_DATA_KEY, &wallet_data);
 
-        // At this point, the transaction would be executed
-        // For this MVP, we just verify and update nonce
-        // In a full implementation, you would parse the message and execute operations
+        // Transaction signature verified successfully
+        // The nonce is updated to prevent replay attacks
+        // In a full implementation, parse the message and execute the transaction operations
         
         nonce
     }
@@ -120,20 +116,22 @@ impl SmartWallet {
         }
 
         // Create message: "set_recovery_key" + recovery_key
-        // Build message bytes by concatenating
-        let prefix = Bytes::from_slice(&env, b"set_recovery_key");
-        let key_bytes = Bytes::from_array(&env, &recovery_key.to_array());
-        let message = Bytes::concat(&env, &[prefix, key_bytes]);
+        // Build message by combining prefix and key
+        let prefix_bytes = b"set_recovery_key";
+        let key_array = recovery_key.to_array();
+        
+        // Combine bytes: prefix (16 bytes) + key (65 bytes) = 81 bytes total
+        let mut combined = [0u8; 81];
+        combined[0..16].copy_from_slice(prefix_bytes);
+        combined[16..81].copy_from_slice(key_array.as_slice());
+        let message = Bytes::from_slice(&env, &combined);
         
         let message_hash = env.crypto().sha256(&message);
 
-        // Verify signature
-        if !env
-            .crypto()
-            .verify_sig_ecdsa_secp256r1(&message_hash, &signature, &wallet_data.passkey_public_key)
-        {
-            panic!("Invalid signature");
-        }
+        // Verify signature using secp256r1_verify
+        // secp256r1_verify panics if signature is invalid
+        env.crypto()
+            .secp256r1_verify(&wallet_data.passkey_public_key, &message_hash, &signature);
 
         // Update recovery key and nonce
         wallet_data.recovery_key = Some(recovery_key);
@@ -156,26 +154,29 @@ impl SmartWallet {
             .get(&WALLET_DATA_KEY)
             .unwrap_or_else(|| panic!("Wallet not initialized"));
 
-        // Check if recovery key exists
+        // Check if recovery key exists and clone it
         let recovery_key = wallet_data
             .recovery_key
+            .clone()
             .unwrap_or_else(|| panic!("No recovery key set"));
 
         // Create message: "recover" + new_passkey_public_key
-        // Build message bytes by concatenating
-        let prefix = Bytes::from_slice(&env, b"recover");
-        let key_bytes = Bytes::from_array(&env, &new_passkey_public_key.to_array());
-        let message = Bytes::concat(&env, &[prefix, key_bytes]);
+        // Build message by combining prefix and key
+        let prefix_bytes = b"recover";
+        let key_array = new_passkey_public_key.to_array();
+        
+        // Combine bytes: prefix (7 bytes) + key (65 bytes) = 72 bytes total
+        let mut combined = [0u8; 72];
+        combined[0..7].copy_from_slice(prefix_bytes);
+        combined[7..72].copy_from_slice(key_array.as_slice());
+        let message = Bytes::from_slice(&env, &combined);
         
         let message_hash = env.crypto().sha256(&message);
 
-        // Verify recovery signature
-        if !env
-            .crypto()
-            .verify_sig_ecdsa_secp256r1(&message_hash, &recovery_signature, &recovery_key)
-        {
-            panic!("Invalid recovery signature");
-        }
+        // Verify recovery signature using secp256r1_verify
+        // secp256r1_verify panics if signature is invalid
+        env.crypto()
+            .secp256r1_verify(&recovery_key, &message_hash, &recovery_signature);
 
         // Update Passkey public key
         wallet_data.passkey_public_key = new_passkey_public_key;
