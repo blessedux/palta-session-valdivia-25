@@ -52,8 +52,7 @@ Crea o actualiza `package.json` con las siguientes dependencias:
     "next": "^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@stellar/stellar-sdk": "^11.2.2",
-    "@stellar/stellar-sdk-contract": "^11.2.2"
+    "@stellar/stellar-sdk": "^11.2.2"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -67,8 +66,7 @@ Crea o actualiza `package.json` con las siguientes dependencias:
 ```
 
 **Dependencias importantes:**
-- `@stellar/stellar-sdk`: SDK principal de Stellar
-- `@stellar/stellar-sdk-contract`: SDK para interactuar con contratos Soroban
+- `@stellar/stellar-sdk`: SDK principal de Stellar (incluye soporte para contratos Soroban)
 - `next`, `react`, `react-dom`: Framework Next.js
 
 ### 1.3 Instalar dependencias
