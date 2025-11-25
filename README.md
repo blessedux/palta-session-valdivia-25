@@ -7,6 +7,7 @@ Este es un template inicial para construir un **MVP de Smart Wallet** que demues
 ## 🎯 ¿Qué Estás Construyendo?
 
 **Tu Objetivo Final:** Desplegar una aplicación web funcional en **Vercel** que permita a los usuarios:
+
 - Crear un Smart Wallet usando Passkeys (autenticación sin contraseñas)
 - Registrar metadata de lotes de producción en la blockchain de Stellar (testnet)
 - Consultar y visualizar lotes registrados
@@ -81,12 +82,14 @@ Al completar este workshop, habrás logrado:
 Antes de comenzar, asegúrate de tener:
 
 ### Conocimientos Básicos
+
 - ✅ Conocimiento básico de JavaScript/TypeScript
 - ✅ Familiaridad con React (recomendado)
 - ✅ Conceptos básicos de blockchain (recomendado)
 - ✅ Uso básico de Git
 
 ### Herramientas Necesarias
+
 - ✅ **Node.js** 18+ instalado
 - ✅ **Git** instalado
 - ✅ **Navegador moderno** con soporte para WebAuthn (Chrome, Firefox, Safari, Edge)
@@ -94,47 +97,56 @@ Antes de comenzar, asegúrate de tener:
 - ✅ **Cuenta de Vercel** (gratuita, para despliegue)
 
 ### Opcional (pero recomendado)
+
 - ✅ Conocimiento básico de Rust (para entender los contratos)
 - ✅ Editor de código (VS Code recomendado)
 
 ## 🗺️ El Viaje Completo
 
 ### Paso 01: Contrato Smart Wallet
+
 **Rama:** `01-smart-wallet-contract`  
 **Qué aprendes:** Implementar un contrato Soroban que gestiona cuentas con autenticación Passkey  
 **Resultado:** Contrato compilado y listo para desplegar
 
 ### Paso 02: Contrato de Registro de Lotes
+
 **Rama:** `02-lot-registry-contract`  
 **Qué aprendes:** Implementar un contrato para almacenar metadata en la blockchain  
 **Resultado:** Segundo contrato compilado
 
 ### Paso 03: Configuración Frontend
+
 **Rama:** `03-frontend-setup`  
 **Qué aprendes:** Configurar proyecto Next.js con TypeScript y dependencias de Stellar  
 **Resultado:** Proyecto Next.js funcionando localmente
 
 ### Paso 04: Integración Passkeys
+
 **Rama:** `04-passkey-integration`  
 **Qué aprendes:** Implementar creación y uso de Passkeys con WebAuthn  
 **Resultado:** Usuarios pueden crear Passkeys en el navegador
 
 ### Paso 05: Integración Smart Wallet
+
 **Rama:** `05-wallet-integration`  
 **Qué aprendes:** Conectar frontend con contratos Soroban y smart wallet  
 **Resultado:** Frontend puede interactuar con el smart wallet
 
 ### Paso 06: Registro de Lotes
+
 **Rama:** `06-lot-registration`  
 **Qué aprendes:** Implementar formulario y lógica para registrar lotes  
 **Resultado:** Usuarios pueden registrar lotes en la blockchain
 
 ### Paso 07: Consulta de Lotes
+
 **Rama:** `07-lot-query`  
 **Qué aprendes:** Implementar interfaz para consultar lotes registrados  
 **Resultado:** Usuarios pueden ver lotes registrados
 
 ### Paso 08: Producción y Despliegue
+
 **Rama:** `08-production-ready`  
 **Qué aprendes:** Pulir UI/UX, manejo de errores, y desplegar en Vercel  
 **Resultado:** Aplicación desplegada y accesible públicamente 🎉
@@ -173,6 +185,7 @@ git checkout starting-template
 ### Paso 3: Explorar la Estructura
 
 Esta rama contiene:
+
 - ✅ **README.md** - Este archivo (guía completa)
 - ✅ **docs/** - Toda la documentación y tutoriales
 - ✅ **contracts/** - Contratos Soroban (stubs, a implementar)
@@ -180,6 +193,7 @@ Esta rama contiene:
 ### Paso 4: Leer los Tutoriales
 
 Todos los tutoriales están disponibles en `docs/tutorials/`:
+
 - [Tutorial 01: Smart Wallet Contract](./docs/tutorials/01-SMART_WALLET_CONTRACT.md)
 - [Tutorial 02: Lot Registry Contract](./docs/tutorials/02-LOT_REGISTRY_CONTRACT.md)
 - [Tutorial 03: Frontend Setup](./docs/tutorials/03-FRONTEND_SETUP.md)
@@ -202,19 +216,23 @@ Luego sigue el tutorial: [`docs/tutorials/01-SMART_WALLET_CONTRACT.md`](./docs/t
 Toda la documentación está en el directorio `docs/`:
 
 ### Guías Principales
+
 - **[docs/README.md](./docs/README.md)** - Índice de documentación
 - **[docs/WALLET_EXPLANATION.md](./docs/WALLET_EXPLANATION.md)** - Resumen del proyecto y arquitectura
 - **[docs/BRANCH_ORGANIZATION.md](./docs/BRANCH_ORGANIZATION.md)** - Guía de estructura de ramas
 
 ### Conceptos Técnicos
+
 - **[docs/SMART_WALLET_VS_TRADITIONAL.md](./docs/SMART_WALLET_VS_TRADITIONAL.md)** - Smart wallet vs wallet tradicional
 - **[docs/CONTRACT_EXPLANATION.md](./docs/CONTRACT_EXPLANATION.md)** - Explicación de contratos
 - **[docs/CONTRACT_DEPLOYMENT.md](./docs/CONTRACT_DEPLOYMENT.md)** - Guía de despliegue de contratos
 
 ### Configuración
+
 - **[docs/ENV_SETUP.md](./docs/ENV_SETUP.md)** - Configuración de entorno
 
 ### Tutoriales Paso a Paso
+
 - **[docs/tutorials/](./docs/tutorials/)** - Todos los tutoriales detallados (01-08)
 
 ## 🏗️ Estructura del Proyecto
@@ -261,11 +279,13 @@ stellar-smartwallet/
 ### Antes del Workshop
 
 1. **Desplegar contratos en testnet:**
+
    - Desplegar Smart Wallet contract
    - Desplegar Lot Registry contract
    - Obtener los Contract IDs
 
 2. **Preparar información:**
+
    - Contract IDs para compartir con estudiantes
    - Enlace a la aplicación desplegada (si existe)
    - Variables de entorno de ejemplo
@@ -297,6 +317,7 @@ stellar-smartwallet/
 **Propósito:** Gestiona cuentas de usuario con autenticación Passkey
 
 **Características:**
+
 - Verificación de firma secp256r1 (Protocol 21)
 - Recuperación de cuenta
 - Ejecución de transacciones
@@ -309,6 +330,7 @@ stellar-smartwallet/
 **Propósito:** Almacena metadata de lotes de producción en la blockchain
 
 **Características:**
+
 - Registrar lotes de producción
 - Almacenar metadata (ID de lote, fecha, calidad, etc.)
 - Consultar información de lotes
@@ -321,12 +343,14 @@ stellar-smartwallet/
 ## 🔗 Recursos
 
 ### Documentación Oficial
+
 - [Documentación de Stellar Smart Wallet](https://stellar.org/learn/crypto-smart-contract-wallets)
 - [Documentación de Soroban](https://soroban.stellar.org/docs)
 - [Anuncio de Protocol 21](https://stellar.org/blog/protocol-21-is-live-on-stellar-mainnet)
 - [Stellar SDK](https://stellar.github.io/js-stellar-sdk/)
 
 ### Herramientas
+
 - [Vercel](https://vercel.com) - Plataforma de despliegue
 - [v0](https://v0.dev) - Generador de UI (para UI intuitiva y minimalista)
 - [Stellar Laboratory](https://laboratory.stellar.org) - Herramientas de desarrollo
@@ -335,7 +359,7 @@ stellar-smartwallet/
 
 ## 🎯 Próximos Pasos
 
-**¿Listo para comenzar?** 
+**¿Listo para comenzar?**
 
 1. Lee los tutoriales en `docs/tutorials/`
 2. Cambia a la primera rama: `git checkout 01-smart-wallet-contract`
