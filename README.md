@@ -61,9 +61,10 @@ Esta rama contiene solo:
 
 2. **Leer la documentación:**
 
-   - [docs/WALLET_EXPLANATION.md](./docs/WALLET_EXPLANATION.md) - Resumen del proyecto
+   - [docs/README.md](./docs/README.md) - Índice de documentación
    - [docs/BRANCH_ORGANIZATION.md](./docs/BRANCH_ORGANIZATION.md) - Estructura de ramas
    - [docs/SMART_WALLET_VS_TRADITIONAL.md](./docs/SMART_WALLET_VS_TRADITIONAL.md) - Explicación de smart wallet
+   - [docs/CONTRACT_EXPLANATION.md](./docs/CONTRACT_EXPLANATION.md) - Explicación de contratos
 
 3. **Cambiar a la siguiente rama:**
    ```bash
