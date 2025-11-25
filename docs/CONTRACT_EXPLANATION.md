@@ -1,189 +1,262 @@
-# 📜 Understanding the Simple Value Contract
+# 📜 Entendiendo los Contratos
 
-## What is This Contract?
+## ¿Qué Contratos Estamos Usando?
 
-The `simple_value.rs` contract is a **shared counter** that lives on the Stellar Futurenet blockchain. Think of it like a whiteboard that everyone in the workshop can read and write to.
+Este proyecto utiliza dos contratos Soroban desplegados en Stellar Futurenet:
 
-## Contract Structure
+1. **Smart Wallet Contract** - Gestiona cuentas de usuario con autenticación Passkey
+2. **Lot Registry Contract** - Almacena metadata de lotes de producción en la blockchain
+
+## Contrato Smart Wallet
+
+### Estructura del Contrato
+
+El contrato Smart Wallet gestiona cuentas de usuario con las siguientes características:
 
 ```rust
-// The contract stores ONE number
-const DATA_KEY: Symbol = symbol_short!("VALUE");
-
-// Function 1: Read the number
-pub fn get_value(env: Env) -> u32 {
-    env.storage().instance().get(&DATA_KEY).unwrap_or(0)
-}
-
-// Function 2: Update the number
-pub fn set_value(env: Env, value: u32) {
-    env.storage().instance().set(&DATA_KEY, &value);
+// Estructura de datos del wallet
+pub struct WalletData {
+    pub passkey_public_key: BytesN<33>,  // Clave pública del Passkey
+    pub nonce: u64,                      // Nonce para protección contra replay
+    pub recovery_key: Option<BytesN<33>>, // Clave de recuperación opcional
 }
 ```
 
-## How It Works
+### Funciones Principales
 
-### Storage
-- **Type:** Instance storage (shared across all users)
-- **Key:** `"VALUE"` (a Symbol)
-- **Value:** `u32` (unsigned 32-bit integer: 0 to 4,294,967,295)
-- **Default:** `0` if never set
+#### `init(passkey_public_key: BytesN<33>)`
 
-### Why Instance Storage?
-- **Shared state** - All students interact with the SAME value
-- **Collaborative** - When one student updates it, everyone sees the change
-- **Simple** - Perfect for a 2-hour workshop
+**Qué hace:**
 
-## Function Details
+- Inicializa un nuevo wallet con una clave pública Passkey
+- Establece el nonce inicial en 0
+- Almacena la clave pública para verificación de firmas
 
-### `get_value() -> u32`
+**Cómo se llama:**
 
-**What it does:**
-- Reads the number stored in the contract
-- Returns `0` if nothing has been set yet
-
-**How it's called:**
 ```typescript
-// In the frontend (readContractValue function)
-const value = await readContractValue(contractId);
-// Returns: number (e.g., 42)
-```
-
-**Cost:** FREE (read-only, no transaction)
-
-**Who can call:** Anyone (public read)
-
-**Example:**
-```
-Student A calls get_value() → Returns 42
-Student B calls get_value() → Returns 42 (same value!)
-```
-
-### `set_value(value: u32)`
-
-**What it does:**
-- Updates the stored number to a new value
-- Overwrites the previous value
-
-**How it's called:**
-```typescript
-// In the frontend (invokeContract function)
-await invokeContract({
-  contractId: "...",
-  method: "set_value",
-  args: [100],  // New value
-  signerSecretKey: "..."
+// En el frontend
+await walletContract.invoke({
+  method: "init",
+  args: [passkeyPublicKey],
 });
 ```
 
-**Cost:** Transaction fee (paid by the signer, ~0.00001 XLM)
+**Costo:** Tarifa de transacción (pagada por quien firma)
 
-**Who can call:** Anyone who signs the transaction
+**Quién puede llamar:** Cualquiera (pero solo una vez por wallet)
 
-**Example:**
-```
-Initial state: value = 0
+#### `execute(message: Bytes, signature: BytesN<64>, nonce: u64)`
 
-Student A calls set_value(42) → value = 42
-Student B calls get_value() → Returns 42
+**Qué hace:**
 
-Student C calls set_value(100) → value = 100
-Student A calls get_value() → Returns 100 (updated!)
-```
+- Verifica la firma secp256r1 del Passkey
+- Verifica que el nonce sea correcto (previene replay attacks)
+- Ejecuta la transacción si la verificación es exitosa
+- Actualiza el nonce
 
-## Frontend Integration Flow
+**Cómo se llama:**
 
-### Reading the Value
-
-```
-User clicks "Refresh Value"
-    ↓
-ContractPanel.loadValue()
-    ↓
-readContractValue(contractId)
-    ↓
-Queries contract storage directly
-    ↓
-Returns number
-    ↓
-Displays in UI
+```typescript
+// En el frontend
+await walletContract.invoke({
+  method: "execute",
+  args: [message, signature, nonce],
+});
 ```
 
-**Code path:**
-1. `ContractPanel.tsx` → `loadValue()`
-2. `utils/stellar.ts` → `readContractValue()`
-3. Soroban RPC → `getLedgerEntries()`
-4. Contract storage → Returns value
+**Costo:** Tarifa de transacción
 
-### Updating the Value
+**Quién puede llamar:** Cualquiera con una firma válida del Passkey
 
-```
-User enters number and clicks "Set Value"
-    ↓
-ContractPanel.handleSetValue()
-    ↓
-invokeContract({ method: 'set_value', args: [value] })
-    ↓
-Build transaction
-    ↓
-Simulate transaction (get footprint)
-    ↓
-Sign transaction with wallet
-    ↓
-Submit to network
-    ↓
-Poll for result
-    ↓
-Update UI with success/error
-```
+#### `recover(new_passkey_public_key: BytesN<33>, recovery_signature: BytesN<64>)`
 
-**Code path:**
-1. `ContractPanel.tsx` → `handleSetValue()`
-2. `utils/stellar.ts` → `invokeContract()`
-3. Stellar SDK → Build & sign transaction
-4. Soroban RPC → Submit transaction
-5. Network → Execute contract function
-6. Frontend → Display result
+**Qué hace:**
 
-## Workshop Experience
+- Permite recuperar acceso a la cuenta usando una clave de recuperación
+- Actualiza la clave pública del Passkey
 
-### Why This Design?
+**Costo:** Tarifa de transacción
 
-1. **Simple:** Only 2 functions, easy to understand
-2. **Interactive:** Students see real blockchain interaction
-3. **Collaborative:** Shared state creates engagement
-4. **Fast:** No complex logic, quick transactions
-5. **Educational:** Shows reading vs writing, transactions, fees
+**Quién puede llamar:** Cualquiera con una firma válida de la clave de recuperación
 
-### What Students Learn
+#### `set_recovery_key(recovery_key: BytesN<33>, signature: BytesN<64>, nonce: u64)`
 
-- ✅ How to read contract state (free, no transaction)
-- ✅ How to invoke contract functions (requires transaction)
-- ✅ How transactions work (signing, fees, confirmation)
-- ✅ How to interact with Soroban contracts from frontend
-- ✅ The difference between read and write operations
+**Qué hace:**
 
-## Real-World Analogy
+- Establece una clave de recuperación opcional
+- Requiere una firma válida del Passkey actual
 
-Think of the contract like a **shared Google Doc**:
+**Costo:** Tarifa de transacción
 
-- **`get_value()`** = Reading the document (anyone can do it, free)
-- **`set_value()`** = Editing the document (requires permission = transaction signature)
+#### `get_nonce() -> u64`
 
-But unlike Google Docs:
-- The changes are **permanent** (on blockchain)
-- Everyone sees the **same version** (shared state)
-- Changes are **transparent** (visible on explorer)
+**Qué hace:**
 
-## Next Steps
+- Obtiene el nonce actual del wallet
+- Útil para construir transacciones con el nonce correcto
 
-After understanding this contract, students can:
-- Modify it to store more data
-- Add access control (only owner can set)
-- Add events for tracking changes
-- Build more complex contracts
+**Costo:** GRATIS (solo lectura, no requiere transacción)
+
+#### `get_passkey_public_key() -> BytesN<33>`
+
+**Qué hace:**
+
+- Obtiene la clave pública del Passkey almacenada
+
+**Costo:** GRATIS (solo lectura)
 
 ---
 
-**Ready to deploy?** See [CONTRACT_DEPLOYMENT.md](./CONTRACT_DEPLOYMENT.md)
+## Contrato de Registro de Lotes
 
+### Estructura del Contrato
+
+El contrato de registro almacena metadata de lotes de producción:
+
+```rust
+// Estructura de metadata de lote
+pub struct LotMetadata {
+    pub lot_id: Symbol,              // ID único del lote
+    pub production_date: u64,        // Fecha de producción (timestamp)
+    pub batch_number: String,       // Número de lote
+    pub quantity: u32,               // Cantidad
+    pub quality_score: u8,            // Puntuación de calidad (0-100)
+    pub location: String,             // Ubicación
+    pub notes: String,                // Notas adicionales
+    pub registered_by: Address,       // Dirección que registró el lote
+}
+```
+
+### Funciones Principales
+
+#### `register_lot(...)`
+
+**Qué hace:**
+
+- Registra un nuevo lote de producción con toda su metadata
+- Valida que el `quality_score` esté entre 0 y 100
+- Almacena el lote en el almacenamiento del contrato
+- Usa `env.invoker()` para determinar quién registró el lote
+
+**Parámetros:**
+
+- `lot_id`: ID único del lote
+- `production_date`: Fecha de producción (timestamp)
+- `batch_number`: Número de lote
+- `quantity`: Cantidad
+- `quality_score`: Puntuación de calidad (0-100)
+- `location`: Ubicación
+- `notes`: Notas adicionales
+
+**Costo:** Tarifa de transacción
+
+**Quién puede llamar:** Cualquiera que firme la transacción
+
+#### `get_lot(lot_id: Symbol) -> LotMetadata`
+
+**Qué hace:**
+
+- Obtiene la metadata completa de un lote por su ID
+- Retorna la estructura `LotMetadata` completa
+
+**Costo:** GRATIS (solo lectura)
+
+**Quién puede llamar:** Cualquiera (lectura pública)
+
+#### `lot_exists(lot_id: Symbol) -> bool`
+
+**Qué hace:**
+
+- Verifica si un lote existe en el registro
+- Retorna `true` si existe, `false` si no
+
+**Costo:** GRATIS (solo lectura)
+
+**Quién puede llamar:** Cualquiera
+
+---
+
+## Flujo de Integración Frontend
+
+### Inicializar un Smart Wallet
+
+```
+Usuario crea Passkey
+    ↓
+Frontend extrae clave pública
+    ↓
+walletContract.init(passkeyPublicKey)
+    ↓
+Contrato almacena clave pública y nonce = 0
+    ↓
+Wallet inicializado ✅
+```
+
+### Registrar un Lote
+
+```
+Usuario llena formulario de registro
+    ↓
+Frontend construye transacción
+    ↓
+Passkey firma la transacción (secp256r1)
+    ↓
+walletContract.execute(message, signature, nonce)
+    ↓
+Contrato verifica firma y ejecuta
+    ↓
+lotRegistryContract.register_lot(...)
+    ↓
+Lote registrado en blockchain ✅
+```
+
+### Consultar un Lote
+
+```
+Usuario ingresa ID de lote
+    ↓
+Frontend llama lotRegistryContract.get_lot(lot_id)
+    ↓
+Contrato retorna metadata del lote
+    ↓
+Frontend muestra información en UI
+```
+
+---
+
+## Experiencia del Workshop
+
+### ¿Por Qué Este Diseño?
+
+1. **Smart Wallet Real:** Usa contratos Soroban reales, no wallets tradicionales
+2. **Passkeys Nativos:** Usa secp256r1 directamente, no derivación de claves
+3. **Recuperación de Cuenta:** Funcionalidad de recuperación integrada
+4. **Registro de Lotes:** Caso de uso práctico y real
+5. **Educativo:** Los estudiantes aprenden arquitectura de smart wallets real
+
+### Lo Que Aprenden los Estudiantes
+
+- ✅ Cómo funcionan los smart wallets basados en contratos
+- ✅ Cómo verificar firmas secp256r1 con Passkeys
+- ✅ Cómo usar nonces para prevenir replay attacks
+- ✅ Cómo interactuar con contratos Soroban desde el frontend
+- ✅ Cómo registrar y consultar datos en la blockchain
+- ✅ La diferencia entre operaciones de lectura y escritura
+
+---
+
+## Próximos Pasos
+
+Después de entender estos contratos, los estudiantes pueden:
+
+- Modificar los contratos para agregar más funcionalidades
+- Agregar control de acceso (solo el dueño puede modificar)
+- Agregar eventos para rastrear cambios
+- Construir contratos más complejos
+- Implementar multi-firma
+- Agregar límites de gasto
+
+---
+
+**¿Listo para desplegar?** Ver [CONTRACT_DEPLOYMENT.md](./CONTRACT_DEPLOYMENT.md)
