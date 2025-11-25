@@ -251,11 +251,11 @@ export default function Home() {
 
 ## 🚀 Siguiente Paso
 
-**Paso 05**: Integrar el Smart Wallet con el frontend
+**Paso 05**: Versión final lista para producción
 
 ```bash
-git checkout 05-wallet-integration
+git checkout 05-production-ready
 ```
 
-Lee: [`05-WALLET_INTEGRATION.md`](./05-WALLET_INTEGRATION.md)
+Lee: [`05-PRODUCTION_READY.md`](./05-PRODUCTION_READY.md)
 
