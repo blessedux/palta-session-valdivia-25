@@ -6,6 +6,9 @@ Pulir la aplicación para producción: manejo de errores, estados de carga, UI m
 
 ## 📚 Prerequisitos
 
+- ✅ **Paso 01**: Contrato Smart Wallet implementado
+- ✅ **Paso 02**: Contrato de Registro de Lotes implementado
+- ✅ **Paso 03**: Frontend configurado con Next.js
 - ✅ **Paso 04**: Integración Passkeys completada
 - ✅ Todas las funcionalidades básicas funcionando
 
