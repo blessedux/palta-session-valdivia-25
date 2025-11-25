@@ -1,6 +1,6 @@
 # 🥑 Stellar Smart Wallet MVP - Registro de Lotes de Producción
 
-> **Construye un MVP de Smart Wallet listo para producción para registrar metadata de lotes de producción en Stellar**
+> **Construye un MVP de Smart Wallet para registrar metadata de lotes de producción en Stellar**
 
 Este es un template inicial para construir un **MVP de Smart Wallet** que demuestra el desarrollo de aplicaciones blockchain del mundo real usando las capacidades de contratos inteligentes de Stellar.
 
@@ -160,7 +160,9 @@ stellar-smartwallet/
 - Ejecución de transacciones
 - Abstracción de fees
 
-**Estado:** ⏳ A implementar en la rama `01-smart-wallet-contract`
+**Estado:** ✅ Implementado en la rama `01-smart-wallet-contract`
+
+Ver [docs/WALLET_CONTRACT.md](./docs/WALLET_CONTRACT.md) para documentación completa del contrato.
 
 ### Contrato de Registro de Lotes (`contracts/lot_registry.rs`)
 
