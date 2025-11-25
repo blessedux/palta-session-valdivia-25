@@ -3,7 +3,6 @@
 ## 🎯 Objetivo
 
 En este paso, aprenderás a configurar un proyecto Next.js con TypeScript para interactuar con los contratos Soroban. Configurarás:
-
 - Proyecto Next.js con TypeScript
 - Dependencias necesarias (Stellar SDK, etc.)
 - Estructura básica del proyecto
@@ -12,7 +11,6 @@ En este paso, aprenderás a configurar un proyecto Next.js con TypeScript para i
 ## 📚 Prerequisitos
 
 Antes de comenzar, asegúrate de haber completado:
-
 - ✅ **Paso 01**: Contrato Smart Wallet implementado
 - ✅ **Paso 02**: Contrato de Registro de Lotes implementado
 - ✅ Node.js instalado (versión 18 o superior)
@@ -54,7 +52,8 @@ Crea o actualiza `package.json` con las siguientes dependencias:
     "next": "^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@stellar/stellar-sdk": "^11.2.2"
+    "@stellar/stellar-sdk": "^11.2.2",
+    "@stellar/stellar-sdk-contract": "^11.2.2"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -68,8 +67,8 @@ Crea o actualiza `package.json` con las siguientes dependencias:
 ```
 
 **Dependencias importantes:**
-
-- `@stellar/stellar-sdk`: SDK principal de Stellar (incluye soporte para contratos Soroban)
+- `@stellar/stellar-sdk`: SDK principal de Stellar
+- `@stellar/stellar-sdk-contract`: SDK para interactuar con contratos Soroban
 - `next`, `react`, `react-dom`: Framework Next.js
 
 ### 1.3 Instalar dependencias
@@ -139,7 +138,6 @@ module.exports = nextConfig;
 ```
 
 **¿Qué hace?**
-
 - Habilita React Strict Mode
 - Configura webpack para manejar dependencias del SDK de Stellar que requieren Node.js
 
@@ -163,9 +161,9 @@ body {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-    "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -181,8 +179,8 @@ a {
 Crea el archivo `pages/_app.tsx`:
 
 ```typescript
-import type { AppProps } from "next/app";
-import "@/styles/globals.css";
+import type { AppProps } from 'next/app';
+import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
@@ -196,22 +194,19 @@ export default function App({ Component, pageProps }: AppProps) {
 Crea el archivo `pages/index.tsx`:
 
 ```typescript
-import { useState } from "react";
-import Head from "next/head";
+import { useState } from 'react';
+import Head from 'next/head';
 
 export default function Home() {
   return (
     <>
       <Head>
         <title>Stellar Smart Wallet - Production Lot Registry</title>
-        <meta
-          name="description"
-          content="Smart Wallet MVP for Production Lot Registry"
-        />
+        <meta name="description" content="Smart Wallet MVP for Production Lot Registry" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main style={{ padding: "2rem" }}>
+      <main style={{ padding: '2rem' }}>
         <h1>Stellar Smart Wallet</h1>
         <p>Production Lot Registry MVP</p>
         <p>Frontend setup complete! Ready for Passkey integration.</p>
@@ -268,7 +263,6 @@ npm run dev
 ```
 
 **¿Qué esperar?**
-
 - El servidor debería iniciar en `http://localhost:3000`
 - Deberías ver la página principal con el título "Stellar Smart Wallet"
 
@@ -277,21 +271,18 @@ npm run dev
 Asegúrate de que tu configuración tenga:
 
 - ✅ **Estructura de directorios**:
-
   - `pages/` existe
   - `components/` existe
   - `utils/` existe
   - `styles/` existe
 
 - ✅ **Archivos de configuración**:
-
   - `package.json` con todas las dependencias
   - `tsconfig.json` configurado
   - `next.config.js` configurado
   - `.env.local` creado
 
 - ✅ **Archivos básicos**:
-
   - `pages/_app.tsx` existe
   - `pages/index.tsx` existe
   - `styles/globals.css` existe
@@ -303,15 +294,12 @@ Asegúrate de que tu configuración tenga:
 ## 🐛 Errores Comunes y Soluciones
 
 **Error: "Module not found: Can't resolve '@stellar/stellar-sdk'"**
-
 - **Solución**: Ejecuta `npm install` para instalar las dependencias
 
 **Error: "Cannot find module 'next'"**
-
 - **Solución**: Asegúrate de estar en el directorio raíz y ejecuta `npm install`
 
 **Error: "webpack error" con dependencias de Node.js**
-
 - **Solución**: Verifica que `next.config.js` tenga la configuración de `webpack.resolve.fallback`
 
 ## 📖 Conceptos Clave Aprendidos
@@ -344,3 +332,4 @@ Lee el tutorial: [`04-PASSKEY_INTEGRATION.md`](./04-PASSKEY_INTEGRATION.md)
 ---
 
 **¿Problemas?** Revisa los errores comunes arriba o consulta la documentación de Next.js.
+
