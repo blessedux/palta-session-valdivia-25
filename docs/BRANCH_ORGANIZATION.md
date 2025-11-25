@@ -83,51 +83,6 @@ This repository uses branches to represent different stages of development. Stud
 
 ---
 
-### `05-wallet-integration`
-
-**Purpose:** Smart wallet frontend integration
-
-**Adds:**
-
-- ✅ `utils/stellar.ts` with wallet contract interaction
-- ✅ Wallet deployment helpers
-- ✅ Transaction signing with Passkeys
-- ✅ Contract verification
-
-**Use Case:** See how frontend interacts with smart wallet
-
----
-
-### `06-lot-registration`
-
-**Purpose:** Lot registration functionality
-
-**Adds:**
-
-- ✅ Lot registration form component
-- ✅ Integration with lot registry contract
-- ✅ Form validation
-- ✅ Transaction handling
-
-**Use Case:** See how lot registration works
-
----
-
-### `07-lot-query`
-
-**Purpose:** Lot query interface
-
-**Adds:**
-
-- ✅ Lot query component
-- ✅ Display lot metadata
-- ✅ Search functionality
-- ✅ Error handling
-
-**Use Case:** See how to query lot information
-
----
-
 ### `05-production-ready`
 
 **Propósito:** Versión final lista para producción
