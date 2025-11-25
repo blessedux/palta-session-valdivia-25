@@ -120,12 +120,10 @@ impl SmartWallet {
         }
 
         // Create message: "set_recovery_key" + recovery_key
-        // Build message bytes
+        // Build message bytes by concatenating
         let prefix = Bytes::from_slice(&env, b"set_recovery_key");
-        let key_bytes = Bytes::from_array(&env, recovery_key.to_array());
-        let mut message = Bytes::new(&env);
-        message.append(&prefix);
-        message.append(&key_bytes);
+        let key_bytes = Bytes::from_array(&env, &recovery_key.to_array());
+        let message = Bytes::concat(&env, &[prefix, key_bytes]);
         
         let message_hash = env.crypto().sha256(&message);
 
@@ -164,12 +162,10 @@ impl SmartWallet {
             .unwrap_or_else(|| panic!("No recovery key set"));
 
         // Create message: "recover" + new_passkey_public_key
-        // Build message bytes
+        // Build message bytes by concatenating
         let prefix = Bytes::from_slice(&env, b"recover");
-        let key_bytes = Bytes::from_array(&env, new_passkey_public_key.to_array());
-        let mut message = Bytes::new(&env);
-        message.append(&prefix);
-        message.append(&key_bytes);
+        let key_bytes = Bytes::from_array(&env, &new_passkey_public_key.to_array());
+        let message = Bytes::concat(&env, &[prefix, key_bytes]);
         
         let message_hash = env.crypto().sha256(&message);
 
