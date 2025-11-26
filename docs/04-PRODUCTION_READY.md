@@ -132,3 +132,4 @@ Has completado el MVP de Smart Wallet para registro de lotes de producción. Tu 
 ---
 
 **¡Has construido un Smart Wallet completo en Stellar!** 🚀
+

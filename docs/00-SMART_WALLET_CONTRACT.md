@@ -456,7 +456,7 @@ Una vez que hayas completado este paso y verificado que tu contrato compila corr
 git checkout 02-lot-registry-contract
 ```
 
-Lee el tutorial: [`02-LOT_REGISTRY_CONTRACT.md`](./02-LOT_REGISTRY_CONTRACT.md)
+Lee el tutorial: [`01-LOT_REGISTRY_CONTRACT.md`](./01-LOT_REGISTRY_CONTRACT.md)
 
 ## 📚 Referencias
 
@@ -467,3 +467,4 @@ Lee el tutorial: [`02-LOT_REGISTRY_CONTRACT.md`](./02-LOT_REGISTRY_CONTRACT.md)
 ---
 
 **¿Problemas?** Revisa los errores comunes arriba o consulta la documentación de Soroban.
+

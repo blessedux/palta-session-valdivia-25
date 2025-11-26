@@ -305,7 +305,7 @@ Una vez que hayas completado este paso y verificado que tu contrato compila corr
 git checkout 03-frontend-setup
 ```
 
-Lee el tutorial: [`03-FRONTEND_SETUP.md`](./03-FRONTEND_SETUP.md)
+Lee el tutorial: [`02-FRONTEND_SETUP.md`](./02-FRONTEND_SETUP.md)
 
 ## 📚 Referencias
 

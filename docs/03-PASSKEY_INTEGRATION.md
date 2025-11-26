@@ -275,4 +275,5 @@ export default function Home() {
 git checkout 05-production-ready
 ```
 
-Lee: [`05-PRODUCTION_READY.md`](./05-PRODUCTION_READY.md)
+Lee: [`04-PRODUCTION_READY.md`](./04-PRODUCTION_READY.md)
+

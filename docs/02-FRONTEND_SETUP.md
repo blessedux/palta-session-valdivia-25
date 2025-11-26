@@ -321,7 +321,7 @@ Una vez que hayas completado este paso y verificado que el servidor funciona cor
 git checkout 04-passkey-integration
 ```
 
-Lee el tutorial: [`04-PASSKEY_INTEGRATION.md`](./04-PASSKEY_INTEGRATION.md)
+Lee el tutorial: [`03-PASSKEY_INTEGRATION.md`](./03-PASSKEY_INTEGRATION.md)
 
 ## 📚 Referencias
 
