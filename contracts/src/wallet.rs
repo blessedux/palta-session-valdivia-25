@@ -1,4 +1,3 @@
-#![no_std]
 use soroban_sdk::{
     contract, contractimpl, contracttype, symbol_short, Bytes, BytesN, Env, Symbol,
 };
@@ -7,11 +6,11 @@ use soroban_sdk::{
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct WalletData {
     pub passkey_public_key: BytesN<65>, // secp256r1 public key (uncompressed: 65 bytes)
-    pub recovery_key: Option<BytesN<65>>, // Optional recovery key
     pub nonce: u64, // Transaction nonce for replay protection
 }
 
 const WALLET_DATA_KEY: Symbol = symbol_short!("WALLET");
+const RECOVERY_KEY_KEY: Symbol = symbol_short!("RECOVERY");
 
 #[contract]
 pub struct SmartWallet;
@@ -33,7 +32,6 @@ impl SmartWallet {
 
         let wallet_data = WalletData {
             passkey_public_key: passkey_public_key.clone(),
-            recovery_key: None,
             nonce: 0,
         };
 
@@ -134,7 +132,7 @@ impl SmartWallet {
             .secp256r1_verify(&wallet_data.passkey_public_key, &message_hash, &signature);
 
         // Update recovery key and nonce
-        wallet_data.recovery_key = Some(recovery_key);
+        env.storage().instance().set(&RECOVERY_KEY_KEY, &recovery_key);
         wallet_data.nonce = nonce;
         env.storage().instance().set(&WALLET_DATA_KEY, &wallet_data);
     }
@@ -154,10 +152,11 @@ impl SmartWallet {
             .get(&WALLET_DATA_KEY)
             .unwrap_or_else(|| panic!("Wallet not initialized"));
 
-        // Check if recovery key exists and clone it
-        let recovery_key = wallet_data
-            .recovery_key
-            .clone()
+        // Check if recovery key exists
+        let recovery_key: BytesN<65> = env
+            .storage()
+            .instance()
+            .get(&RECOVERY_KEY_KEY)
             .unwrap_or_else(|| panic!("No recovery key set"));
 
         // Create message: "recover" + new_passkey_public_key
