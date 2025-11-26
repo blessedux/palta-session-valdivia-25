@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import PasskeyTest from '@/components/PasskeyTest';
+import SmartWalletVerification from '@/components/SmartWalletVerification';
 
 export default function Home() {
   return (
@@ -15,9 +16,17 @@ export default function Home() {
         <h1>Stellar Smart Wallet</h1>
         <p>Production Lot Registry MVP</p>
         <p style={{ marginBottom: '2rem' }}>
-          Passkey integration ready! Test Passkey functionality below.
+          Passkey integration ready! Test Passkey functionality and verify your smart wallet below.
         </p>
-        <PasskeyTest />
+        
+        <SmartWalletVerification 
+          contractId={process.env.NEXT_PUBLIC_WALLET_CONTRACT_ID}
+        />
+        
+        <div style={{ marginTop: '3rem' }}>
+          <h2>Basic Passkey Test</h2>
+          <PasskeyTest />
+        </div>
       </main>
     </>
   );

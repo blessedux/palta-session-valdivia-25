@@ -61,7 +61,7 @@ export default function PasskeyTest() {
       }
 
       const message = new TextEncoder().encode('Test message to sign');
-      const signature = await signWithPasskey(message, storedId);
+      const signature = await signWithPasskey(message.buffer, storedId);
       
       setStatus(`✅ Message signed successfully! Signature length: ${signature.signature.byteLength} bytes`);
     } catch (error) {
