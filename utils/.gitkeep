@@ -1,0 +1,8 @@
+# Utils Directory
+
+This directory will contain utility functions for:
+- Stellar SDK helpers
+- Contract interactions
+- Passkey utilities (in next step)
+- Error handling
+
