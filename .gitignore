@@ -37,3 +37,8 @@ next-env.d.ts
 contracts/target/
 contracts/Cargo.lock
 
+contracts/target/
+node_modules/
+next-env.d.ts
+yarn-error.log
+.next/
